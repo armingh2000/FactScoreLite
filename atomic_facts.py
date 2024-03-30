@@ -137,7 +137,7 @@ To winterize your battery and prevent damage:
   - Move the vehicle to a warm location if the outside temperature is -13°F (-25°C) or below, as it may freeze and be unable to charge or power the vehicle.
  
  2. **For the 12-volt battery**:
-  - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery【9†source】.
+  - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery.
 """.strip()
 
     print(generator.run(text))
