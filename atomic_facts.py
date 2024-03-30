@@ -1,17 +1,18 @@
 import re
 import numpy as np
 from nltk.tokenize import sent_tokenize
+from openai_agent import OpenAIAgent
+import configs
+import json
 
 # next steps
-# 1. create openai class
-# 2. Use gpt-4-turbo-preview
-# 3. Complete __init__
+# 1. remove refs in data
 
 
 class AtomicFactGenerator:
     def __init__(self):
-        # demons, openai_lm
-        pass
+        self.demons = self.load_demons()
+        self.openai_lm = OpenAIAgent()
 
     def run(self, text):
         sentences = []
@@ -27,32 +28,40 @@ class AtomicFactGenerator:
 
         return atoms
 
-    def get_sentence_af(self, sent):
-        n = 8
-        atoms = None
-        prompt = ""
+    def load_demons(self):
+        with open(configs.demons_path, "r") as file:
+            demons = json.load(file)
 
-        for i in range(n):
-            prompt = (
-                prompt
-                + "Please breakdown the following sentence into independent facts: {}\n".format(
-                    list(self.demons.keys())[i]
-                )
-            )
+        return demons
 
-            for fact in self.demons[list(self.demons.keys())[i]]:
-                prompt = prompt + "- {}\n".format(fact)
-
-            prompt = prompt + "\n"
-
-        prompt = (
-            prompt
-            + "Please breakdown the following sentence into independent facts: {}\n".format(
-                sent
-            )
+    def get_instructions(self):
+        # n = 8
+        instructions = (
+            "Please breakdown the following sentence into independent facts:\n\n"
         )
 
-        output, _ = self.openai_lm.generate(prompt)
+        for demon in self.demons:
+            sentence = demon["Sentence"]
+            facts = demon["Independent Facts"]
+
+            instructions += f"Sentence:\n{sentence}\n"
+
+            instructions += "Independent Facts:\n"
+
+            for fact in facts:
+                instructions += "- {}\n".format(fact)
+
+            instructions += "\n\n"
+
+        return instructions
+
+    def get_sentence_af(self, sent):
+        atoms = None
+        instructions = self.get_instructions()
+
+        prompt = instructions + f"Sentence: {sent}\nIndependent Facts:"
+
+        output = self.openai_lm.generate(prompt)
         atoms = self.text_to_sentences(output)
 
         return atoms
@@ -91,26 +100,44 @@ class AtomicFactGenerator:
                             + sentences[i + 2 :]
                         )
                         break
-        sentences = []
+
+        results = []
         combine_with_previous = None
+
         for sent_idx, sent in enumerate(sentences):
             if len(sent.split()) <= 1 and sent_idx == 0:
                 assert not combine_with_previous
                 combine_with_previous = True
-                sentences.append(sent)
+                results.append(sent)
             elif len(sent.split()) <= 1:
                 assert sent_idx > 0
-                sentences[-1] += " " + sent
+                results[-1] += " " + sent
                 combined_with_previous = False
             elif sent[0].isalpha() and not sent[0].isupper() and sent_idx > 0:
-                assert sent_idx > 0, sentences
-                sentences[-1] += " " + sent
+                assert sent_idx > 0, results
+                results[-1] += " " + sent
                 combine_with_previous = False
             elif combine_with_previous:
                 assert sent_idx > 0
-                sentences[-1] += " " + sent
+                results[-1] += " " + sent
                 combine_with_previous = False
             else:
                 assert not combine_with_previous
-                sentences.append(sent)
-        return sentences
+                results.append(sent)
+        return results
+
+
+if __name__ == "__main__":
+    generator = AtomicFactGenerator()
+    text = """
+To winterize your battery and prevent damage:
+ 
+ 1. **For the Li-ion battery**:
+  - Avoid storing the vehicle in temperatures below -13°F (-25°C) for more than seven days to prevent the Li-ion battery from freezing.
+  - Move the vehicle to a warm location if the outside temperature is -13°F (-25°C) or below, as it may freeze and be unable to charge or power the vehicle.
+ 
+ 2. **For the 12-volt battery**:
+  - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery【9†source】.
+""".strip()
+
+    print(generator.run(text))
