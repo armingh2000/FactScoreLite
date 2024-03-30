@@ -1,0 +1,45 @@
+Objective:
+Develop a comprehensive dataset containing 8 detailed examples from the automotive domain, focusing on sentences extracted from car manuals. This dataset should train GPT to adeptly break down complex sentences into their constituent, independent facts, enhancing its capability to process and understand intricate information.
+
+Dataset Specifications:
+
+    Source Material: Select sentences from a diverse array of sections within car manuals, including, but not limited to, technical specifications, maintenance guidelines, safety protocols, and feature explanations.
+    Complexity and Variety: Ensure the dataset represents:
+        A wide range of sentence complexities, from straightforward to multifaceted.
+        Sentences that incorporate a significant number of facts (aim for more than 10 per sentence where feasible).
+        Variations in sentence length and structure to include both concise and elaborate examples.
+        The inclusion of numerical data, symbols, and technical terminology.
+
+Dataset Format:
+
+    Format Requirement: Present the dataset in JSON format, with each entry comprising a sentence from a car manual and its breakdown into separate, independent facts.
+    Detailed Breakdown: Each fact should be a standalone piece of information that contributes to the full understanding of the original sentence.
+
+Example Dataset Entry:
+
+json
+
+[
+  {
+    "Sentence": "In 2020, the Model X received a firmware update that improved battery efficiency by 5%, allowing for an extended range of up to 350 miles on a single charge.",
+    "Independent Facts": [
+      "The event occurred in 2020.",
+      "The subject of the event is the Model X.",
+      "The Model X received a firmware update.",
+      "The firmware update was aimed at improving battery efficiency.",
+      "Battery efficiency was improved by 5%.",
+      "The improvement in battery efficiency contributed to an extended range.",
+      "The extended range allows for travel of up to 350 miles.",
+      "The travel range is achievable on a single charge."
+    ]
+  }
+]
+
+Instructional Goal:
+By dissecting sentences into smaller, independent facts, this dataset aims to:
+
+    Enhance GPT's ability to analyze, understand, and generate information from complex texts.
+    Prepare GPT for efficient processing and comprehension of technical documentation, specifically automotive manuals, by familiarizing it with the structure and content of such documents.
+
+Usage:
+This dataset will serve as a foundational tool in training GPT models to navigate and interpret the dense, technical information typically found in automotive manuals, ensuring they can provide accurate, detailed, and user-friendly responses and explanations.
