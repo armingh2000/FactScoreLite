@@ -1,4 +1,4 @@
-import pkg_resources
+import importlib.resources
 
 # Path to the data file within the package
-demons_path = pkg_resources.resource_filename("FactScoreLite", "data/demons.json")
+demons_path = importlib.resources.files("FactScoreLite") / "data" / "demons.json"
