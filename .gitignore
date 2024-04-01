@@ -3,3 +3,6 @@ __pycache__/
 .vscode/
 todo
 *.egg-info
+build/
+dist/
+.pytest_cache/
