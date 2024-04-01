@@ -1,18 +1,15 @@
 import re
 import numpy as np
 from nltk.tokenize import sent_tokenize
-from openai_agent import OpenAIAgent
-import configs
+from .openai_agent import OpenAIAgent
+from . import configs
 import json
-
-# next steps
-# 1. remove refs in data
 
 
 class AtomicFactGenerator:
     def __init__(self):
         self.demons = self.load_demons()
-        self.openai_lm = OpenAIAgent()
+        self.openai_agent = OpenAIAgent()
 
     def run(self, text):
         sentences = []
@@ -61,12 +58,12 @@ class AtomicFactGenerator:
 
         prompt = instructions + f"Sentence: {sent}\nIndependent Facts:"
 
-        output = self.openai_lm.generate(prompt)
-        atoms = self.text_to_sentences(output)
+        output = self.openai_agent.generate(prompt)
+        atoms = self.gpt_output_to_sentences(output)
 
         return atoms
 
-    def text_to_sentences(self, text):
+    def gpt_output_to_sentences(self, text):
         sentences = text.split("- ")[1:]
         sentences = [
             sent.strip()[:-1] if sent.strip()[-1] == "\n" else sent.strip()
@@ -82,8 +79,7 @@ class AtomicFactGenerator:
 
     def detect_initials(self, text):
         pattern = r"[A-Z]\. ?[A-Z]\."
-        match = re.findall(pattern, text)
-        return [m for m in match]
+        return re.findall(pattern, text)
 
     def fix_sentence_splitter(self, sentences, initials):
         for initial in initials:
@@ -124,6 +120,7 @@ class AtomicFactGenerator:
             else:
                 assert not combine_with_previous
                 results.append(sent)
+
         return results
 
 
