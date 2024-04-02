@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from FactScoreLite import OpenAIAgent
 from FactScoreLite.openai_agent import retry_with_exponential_backoff
-from openai import RateLimitError, OpenAIError
+from openai import RateLimitError
 
 # Decorator
 

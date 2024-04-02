@@ -8,14 +8,17 @@ from FactScoreLite import configs
 
 @pytest.fixture
 def generator(monkeypatch):
-    # Create an instance of AtomicFactGenerator for testing
-    generator = AtomicFactGenerator()
+    with monkeypatch.context() as m:
+        m.setattr("FactScoreLite.atomic_facts.OpenAIAgent", MagicMock())
 
-    # Create a MagicMock object for the generate method
-    mock_generate = MagicMock(return_value="Generated output.")
+        # Create an instance of AtomicFactGenerator for testing
+        generator = AtomicFactGenerator()
 
-    # Patch the generate method with the MagicMock object
-    monkeypatch.setattr(generator.openai_agent, "generate", mock_generate)
+        # Create a MagicMock object for the generate method
+        mock_generate = MagicMock(return_value="Generated output.")
+
+        # Patch the generate method with the MagicMock object
+        monkeypatch.setattr(generator.openai_agent, "generate", mock_generate)
 
     return generator
 
@@ -30,14 +33,13 @@ mock_demons_data = {
 
 
 # Test for the load_demons method
-def test_load_demons():
+def test_load_demons(generator):
     # Convert your sample data to a JSON string for mocking
     mock_json_str = json.dumps(mock_demons_data)
     # Use patch to mock open function within the context of your test
     with patch("builtins.open", mock_open(read_data=mock_json_str)):
         # Also mock configs.demons_path to avoid dependency on external config files
         with patch.object(configs, "demons_path", "fake/path/to/demons.json"):
-            generator = AtomicFactGenerator()
             demons = generator.load_demons()
             # Assert that the returned data matches your mock data
             assert (
