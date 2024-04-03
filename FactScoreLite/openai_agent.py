@@ -5,6 +5,7 @@ from openai import (
 import time
 import logging
 import random
+from . import configs
 
 
 # define a retry decorator
@@ -63,9 +64,9 @@ class OpenAIAgent:
 
     def __init__(self):
         self.client = OpenAI()
-        self.max_tokens = 1024
-        self.temp = 0.7
-        self.model_name = "gpt-4-turbo-preview"
+        self.max_tokens = configs.max_tokens
+        self.temp = configs.temp
+        self.model_name = configs.model_name
 
     @retry_with_exponential_backoff
     def generate(self, prompt):
