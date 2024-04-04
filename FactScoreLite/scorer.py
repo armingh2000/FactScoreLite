@@ -4,14 +4,28 @@ from .openai_agent import OpenAIAgent
 
 class FactScorer:
     def __init__(self):
+        # To interact with OpenAI APIs
         self.openai_agent = OpenAIAgent()
 
-    def get_score(self, atomic_facts, knowledge_source):
+    def get_score(self, atomic_facts: list, knowledge_source: str) -> list:
+        """
+        Calculates the score of each atomic fact based on the knowledge source.
+        The score is caclulated by using the OpenAI API.
+
+        Args:
+            atomic_facts (list): A list of atomic facts to be scored.
+            knowledge_source (str): The knowledge source to be used for scoring.
+
+        Returns:
+            list: A list of dictionaries containing the atomic fact and its score.
+        """
+
         decisions = []
 
         for atom in atomic_facts:
             atom = atom.strip()
 
+            # Prompt that will be sent to GPT
             prompt = "Answer the question based on the given context.\n\n"
             prompt += f"Context:\n{knowledge_source}"
 
