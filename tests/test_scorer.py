@@ -1,11 +1,11 @@
 import pytest
 from unittest.mock import patch
-from FactScoreLite.scorer import FactScorer
+from FactScoreLite.fact_scorer import FactScorer
 
 
 @pytest.fixture
 def mock_openai_agent():
-    with patch("FactScoreLite.scorer.OpenAIAgent") as mock:
+    with patch("FactScoreLite.fact_scorer.OpenAIAgent") as mock:
         yield mock()
 
 
