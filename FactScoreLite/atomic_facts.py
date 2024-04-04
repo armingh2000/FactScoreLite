@@ -8,10 +8,22 @@ import json
 
 class AtomicFactGenerator:
     def __init__(self):
+        # Examples (demonstrations) that is used in prompt generation
         self.demons = self.load_demons()
+        # To interact with OpenAI APIs
         self.openai_agent = OpenAIAgent()
 
-    def run(self, text):
+    def run(self, text: str) -> list:
+        """
+        Extracts atomic facts from a text.
+
+        Args:
+            text (str): The text to extract atomic facts from.
+
+        Returns:
+            list: A list of atomic facts and the associatated sentence extracted from the text.
+        """
+
         sentences = []
 
         initials = self.detect_initials(text)
@@ -26,13 +38,27 @@ class AtomicFactGenerator:
         return atoms
 
     def load_demons(self):
+        """
+        Load examples (demonstrations) from a JSON file.
+        This will be used in the prompt generation.
+
+        Returns:
+            list: A list of examples (demonstrations).
+        """
         with open(configs.demons_path, "r") as file:
             demons = json.load(file)
 
         return demons
 
-    def get_instructions(self):
-        # n = 8
+    def get_instructions(self) -> str:
+        """
+        Prepare instructions for the prompt generation.
+        Instructions include the examples given in the demons.json file.
+
+        Returns:
+            str: The instructions for the prompt generation.
+        """
+
         instructions = (
             "Please breakdown the following sentence into independent facts:\n\n"
         )
@@ -52,7 +78,16 @@ class AtomicFactGenerator:
 
         return instructions
 
-    def get_sentence_af(self, sent):
+    def get_sentence_af(self, sent: str) -> list:
+        """
+        Gets atomic facts for a sentence using OpenAI APIs.
+
+        Args:
+            sent (str): The sentence to extract atomic facts from.
+
+        Returns:
+            list: A list of atomic facts extracted from the sentence.
+        """
         atoms = None
         instructions = self.get_instructions()
 
@@ -63,25 +98,54 @@ class AtomicFactGenerator:
 
         return atoms
 
-    def gpt_output_to_sentences(self, text):
+    def gpt_output_to_sentences(self, text: str) -> list:
+        """
+        Clears the output from GPT and returns a list of cleaned sentences.
+
+        Args:
+            text (str): The output from GPT.
+
+        Returns:
+            list: A list of cleaned sentences.
+        """
         sentences = text.split("- ")[1:]
         sentences = [
             sent.strip()[:-1] if sent.strip()[-1] == "\n" else sent.strip()
             for sent in sentences
         ]
-        if len(sentences) > 0:
-            if sentences[-1][-1] != ".":
-                sentences[-1] = sentences[-1] + "."
-        else:
-            sentences = []
+
+        sentences = [sent + "." if sent[-1] != "." else sent for sent in sentences]
 
         return sentences
 
-    def detect_initials(self, text):
+    def detect_initials(self, text: str) -> list:
+        """
+        Detects initials in the text.
+
+        Args:
+            text (str): The text to detect initials in.
+
+        Returns:
+            list: A list of detected initials.
+        """
         pattern = r"[A-Z]\. ?[A-Z]\."
         return re.findall(pattern, text)
 
-    def fix_sentence_splitter(self, sentences, initials):
+    def fix_sentence_splitter(self, sentences: list, initials: list) -> list:
+        """
+        Fixes sentence splitting issues based on detected initials, handling special cases.
+
+        Args:
+            sentences (list): List of sentences to fix.
+            initials (list): List of detected initials.
+
+        Returns:
+            list: Sentences with corrected splitting issues.
+
+        This method corrects sentence splitting issues by merging incorrectly split sentences
+        based on detected initials. It also addresses special cases such as sentences
+        containing only one word or starting with a lowercase letter to ensure proper formatting.
+        """
         for initial in initials:
             if not np.any([initial in sent for sent in sentences]):
                 alpha1, alpha2 = [
@@ -108,7 +172,7 @@ class AtomicFactGenerator:
             elif len(sent.split()) <= 1:
                 assert sent_idx > 0
                 results[-1] += " " + sent
-                combined_with_previous = False
+                combine_with_previous = False
             elif sent[0].isalpha() and not sent[0].isupper() and sent_idx > 0:
                 assert sent_idx > 0, results
                 results[-1] += " " + sent
@@ -127,14 +191,14 @@ class AtomicFactGenerator:
 if __name__ == "__main__":
     generator = AtomicFactGenerator()
     text = """
-To winterize your battery and prevent damage:
- 
- 1. **For the Li-ion battery**:
-  - Avoid storing the vehicle in temperatures below -13°F (-25°C) for more than seven days to prevent the Li-ion battery from freezing.
-  - Move the vehicle to a warm location if the outside temperature is -13°F (-25°C) or below, as it may freeze and be unable to charge or power the vehicle.
- 
- 2. **For the 12-volt battery**:
-  - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery.
-""".strip()
+        To winterize your battery and prevent damage:
+        
+        1. **For the Li-ion battery**:
+        - Avoid storing the vehicle in temperatures below -13°F (-25°C) for more than seven days to prevent the Li-ion battery from freezing.
+        - Move the vehicle to a warm location if the outside temperature is -13°F (-25°C) or below, as it may freeze and be unable to charge or power the vehicle.
+        
+        2. **For the 12-volt battery**:
+        - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery.
+        """.strip()
 
     print(generator.run(text))
