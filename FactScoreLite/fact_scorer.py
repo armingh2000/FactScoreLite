@@ -66,6 +66,8 @@ class FactScorer:
                     ]
                 )
 
-            decisions.append({atom: is_supported})
+            decisions.append(
+                {"fact": atom, "is_supported": is_supported, "output": output}
+            )
 
         return decisions
