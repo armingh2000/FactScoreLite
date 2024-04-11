@@ -59,7 +59,7 @@ def test_get_score_response_interpretation(
     mock_openai_agent.generate.return_value = response
     result = fact_scorer.get_score(["Fact 1"], "Knowledge source")
     assert result == [
-        {"Fact 1": expected}
+        {"fact": "Fact 1", "is_supported": expected, "output": response}
     ], f"Expected decision to be {expected} for response '{response}'."
 
 
