@@ -28,12 +28,14 @@ def fact_score(mock_atomic_fact_generator, mock_fact_scorer, mock_state_handler)
 
 
 # Test 1: Initialization Tests
-def test_initialization_with_default_gamma():
+def test_initialization_with_default_gamma(
+    mock_atomic_fact_generator, mock_fact_scorer
+):
     fs = FactScore()
     assert fs.gamma == 10
 
 
-def test_initialization_with_custom_gamma():
+def test_initialization_with_custom_gamma(mock_atomic_fact_generator, mock_fact_scorer):
     custom_gamma = 5
     fs = FactScore(gamma=custom_gamma)
     assert fs.gamma == custom_gamma
