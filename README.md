@@ -10,9 +10,9 @@ FactScoreLite is an implementation of the [FactScore metric](https://arxiv.org/a
 
 Our development aims to address these shortcomings by updating the code and ensuring compatibility with current technologies. This makes FactScoreLite a reliable tool for anyone looking to evaluate textual accuracy in a minimal set up.
 
-<div style="text-align: center;">
-    <img src="assets/logo.webp" alt="FactScore logo" width="240" height="240" style="border-radius: 100%;">
-</div>
+<p align="center">
+    <img src="assets/logo.webp" alt="FactScore logo" width="240" height="240" style="border-radius:100%;">
+</p>
 
 ## Get Started
 
