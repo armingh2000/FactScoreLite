@@ -42,7 +42,9 @@ class FactScore:
             )
             self.facts_handler.save(generation_facts_pairs)
 
-        assert len(generation_facts_pairs) == len(generations)
+        assert len(generation_facts_pairs) == len(
+            generations
+        ), "Number of generations and generation-facts pairs must match."
 
         return generation_facts_pairs
 
@@ -90,7 +92,13 @@ class FactScore:
 
             scores.append(score)
 
-        assert len(decisions) == len(generation_facts_pairs)
+            assert len(facts) == len(
+                decision
+            ), "Number of facts and decisions for that generation should be the same."
+
+        assert len(decisions) == len(
+            generation_facts_pairs
+        ), "Number of decisions and generation-facts pairs should be the same."
 
         return scores, decisions, init_scores
 
