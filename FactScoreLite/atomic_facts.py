@@ -91,7 +91,7 @@ class AtomicFactGenerator:
         atoms = None
         instructions = self.get_instructions()
 
-        prompt = instructions + f"Sentence: {sent}\nIndependent Facts:"
+        prompt = instructions + f"Sentence:\n{sent}\nIndependent Facts:"
 
         output = self.openai_agent.generate(prompt)
         atoms = self.gpt_output_to_sentences(output)

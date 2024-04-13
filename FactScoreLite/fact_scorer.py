@@ -7,13 +7,13 @@ class FactScorer:
         # To interact with OpenAI APIs
         self.openai_agent = OpenAIAgent()
 
-    def get_score(self, atomic_facts: list, knowledge_source: str) -> list:
+    def get_score(self, facts: list, knowledge_source: str) -> list:
         """
         Calculates the score of each atomic fact based on the knowledge source.
         The score is caclulated by using the OpenAI API.
 
         Args:
-            atomic_facts (list): A list of atomic facts to be scored.
+            facts (list): A list of atomic  to be scored.
             knowledge_source (str): The knowledge source to be used for scoring.
 
         Returns:
@@ -22,7 +22,7 @@ class FactScorer:
 
         decisions = []
 
-        for atom in atomic_facts:
+        for atom in facts:
             atom = atom.strip()
 
             # Prompt that will be sent to GPT
@@ -66,6 +66,8 @@ class FactScorer:
                     ]
                 )
 
-            decisions.append({atom: is_supported})
+            decisions.append(
+                {"fact": atom, "is_supported": is_supported, "output": output}
+            )
 
         return decisions

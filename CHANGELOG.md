@@ -38,6 +38,29 @@ All notable changes to this project will be documented in this file.
 
 - Change scorer.py name to fact_scorer.py
 
+## v 0.4.0 - 2024-04-05
+
+### Added
+
+- Add FactScore class for evaluating generations based on a list of knowledge source.
+
+### Changed
+
+- Change FactScorer class output to include GPT output for dumping.
+
+## v 1.0.0 - 2024-04-11
+
+### Added
+
+- Add StateHandler for dumping in FactScore.
+- Add FactScore tests.
+- Add docstrings.
+- Add documentation.
+
+### Changed
+
+- Renamed test_scorer to test_fact_scorer.
+
 <!--
 ### Added
 
