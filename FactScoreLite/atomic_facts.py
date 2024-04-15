@@ -186,19 +186,3 @@ class AtomicFactGenerator:
                 results.append(sent)
 
         return results
-
-
-if __name__ == "__main__":
-    generator = AtomicFactGenerator()
-    text = """
-        To winterize your battery and prevent damage:
-        
-        1. **For the Li-ion battery**:
-        - Avoid storing the vehicle in temperatures below -13°F (-25°C) for more than seven days to prevent the Li-ion battery from freezing.
-        - Move the vehicle to a warm location if the outside temperature is -13°F (-25°C) or below, as it may freeze and be unable to charge or power the vehicle.
-        
-        2. **For the 12-volt battery**:
-        - Ensure it is fully charged during extremely cold weather conditions to prevent the battery fluid from freezing and possibly causing damage to the battery.
-        """.strip()
-
-    print(generator.run(text))
