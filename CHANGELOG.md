@@ -61,6 +61,12 @@ All notable changes to this project will be documented in this file.
 
 - Renamed test_scorer to test_fact_scorer.
 
+## v 1.0.1 - 2024-04-14
+
+- Fix score calculation when loading from dumped data.
+- Add tests for the fix.
+- Remove unnecessary code.
+
 <!--
 ### Added
 
