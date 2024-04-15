@@ -2,6 +2,7 @@ import numpy as np
 from . import FactScorer, AtomicFactGenerator
 from .state_handler import StateHandler
 from . import configs
+from tqdm import tqdm
 
 
 class FactScore:
@@ -25,9 +26,11 @@ class FactScore:
             list: A list of generation-facts pairs dictionaries.
         """
 
+        print("Extracting facts from generations...")
+
         generation_facts_pairs = self.facts_handler.load()
 
-        for generation in generations[len(generation_facts_pairs) :]:
+        for generation in tqdm(generations[len(generation_facts_pairs) :]):
             atomic_facts_of_generation = self.atomic_fact_generator.run(generation)
             atomic_facts_of_generation = [
                 fact
@@ -48,6 +51,30 @@ class FactScore:
 
         return generation_facts_pairs
 
+    def calculate_score(self, decision: list) -> tuple:
+        """
+        Calculates the score of a generation based on whether its facts are supported by the knowledge source.
+
+        Args:
+            decision (list): A list containing dictionaries of {output, is_supported, fact} for each fact of a generation.
+
+        Returns:
+            tuple: A tuple containing the score and the original score (without applying gamma penalty).
+        """
+
+        score = np.mean([d["is_supported"] for d in decision])
+        init_score = score
+
+        if self.gamma:
+            penalty = (
+                1.0
+                if len(decision) >= self.gamma
+                else np.exp(1 - self.gamma / len(decision))
+            )
+            score = penalty * score
+
+        return score, init_score
+
     def get_decisions(
         self, generation_facts_pairs: list, knowledge_sources: list
     ) -> list:
@@ -66,31 +93,27 @@ class FactScore:
                 and initial scores (original score without applying gamma penalty).
         """
 
+        print("Generating decisions...")
+
         decisions = self.decisions_handler.load()
         scores = []
         init_scores = []
 
-        for entry in generation_facts_pairs[len(decisions) :]:
-            generation, facts = entry["generation"], entry["facts"]
-            score = None
-
-            if facts:
-                decision = self.fact_scorer.get_score(facts, knowledge_sources)
-                score = np.mean([d["is_supported"] for d in decision])
-
-                if self.gamma:
-                    init_scores.append(score)
-                    penalty = (
-                        1.0
-                        if len(facts) > self.gamma
-                        else np.exp(1 - self.gamma / len(facts))
-                    )
-                    score = penalty * score
-
-                decisions.append({"generation": generation, "decision": decision})
-                self.decisions_handler.save(decisions)
-
+        for enrty in decisions:
+            score, init_score = self.calculate_score(enrty["decision"])
+            init_scores.append(init_score)
             scores.append(score)
+
+        for entry in tqdm(generation_facts_pairs[len(decisions) :]):
+            generation, facts = entry["generation"], entry["facts"]
+
+            decision = self.fact_scorer.get_score(facts, knowledge_sources)
+            score, init_score = self.calculate_score(decision)
+
+            init_scores.append(init_score)
+            scores.append(score)
+            decisions.append({"generation": generation, "decision": decision})
+            self.decisions_handler.save(decisions)
 
             assert len(facts) == len(
                 decision
@@ -100,7 +123,7 @@ class FactScore:
             generation_facts_pairs
         ), "Number of decisions and generation-facts pairs should be the same."
 
-        return scores, decisions, init_scores
+        return scores, init_scores
 
     def get_factscore(
         self,
@@ -124,6 +147,6 @@ class FactScore:
         ), "`generations` and `knowledge_sources` should have the same length."
 
         facts = self.get_facts(generations)
-        scores, decisions, init_scores = self.get_decisions(facts, knowledge_sources)
+        scores, init_scores = self.get_decisions(facts, knowledge_sources)
 
         return np.mean(scores), np.mean(init_scores)

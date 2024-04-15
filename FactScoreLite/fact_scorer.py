@@ -34,7 +34,7 @@ class FactScorer:
 
             prompt += "\n\n"
 
-            prompt += f"Input:\n{atom} True or False?\nOutput:\n"
+            prompt += f"Input: {atom} True or False?\nOutput:\n"
 
             output = self.openai_agent.generate(prompt)
 
