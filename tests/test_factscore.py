@@ -65,7 +65,7 @@ def test_get_decisions_with_valid_input(
         {"is_supported": True},
         {"is_supported": False},
     ]
-    scores, decisions, init_scores = fact_score.get_decisions(
+    scores, init_scores = fact_score.get_decisions(
         generation_facts_pairs, knowledge_sources
     )
 
@@ -85,7 +85,12 @@ def test_get_factscore_from_saved_states(
 ):
     mock_state_handler.load.side_effect = [
         [{"generation": "gen1", "facts": ["fact1", "fact2"]}],
-        [{"generation": "gen1", "facts": [{"fact": "fact1", "is_supported": True}]}],
+        [
+            {
+                "generation": "gen1",
+                "decision": [{"fact": "fact1", "is_supported": True, "output": "True"}],
+            }
+        ],
     ]  # First for facts, second for decisions
     generations = ["generation1", "generation2"]
     knowledge_sources = ["source1", "source2"]
@@ -97,3 +102,40 @@ def test_get_factscore_from_saved_states(
     avg_score, avg_init_score = fact_score.get_factscore(generations, knowledge_sources)
     assert isinstance(avg_score, float)
     assert isinstance(avg_init_score, float)
+
+
+@pytest.mark.parametrize(
+    "decision, expected_score",
+    [
+        ([{"is_supported": True} for _ in range(10)], 1.0),
+        ([{"is_supported": True} for _ in range(5)], 1.0),
+        ([{"is_supported": False} for _ in range(10)], 0.0),
+        (
+            [
+                {"is_supported": True} if i % 2 == 0 else {"is_supported": False}
+                for i in range(10)
+            ],
+            0.5,
+        ),
+    ],
+)
+def test_calculate_score_various_decisions(fact_score, decision, expected_score):
+    score, init_score = fact_score.calculate_score(decision)
+    assert (
+        init_score == expected_score
+    ), "Initial score should match expected mean of decisions"
+    if len(decision) >= fact_score.gamma:
+        assert (
+            score == expected_score
+        ), "Score should not be penalized when decision count exceeds gamma"
+    else:
+        assert (
+            score != expected_score
+        ), "Score should be penalized when decision count is below gamma"
+
+
+def test_gamma_zero(fact_score):
+    fact_score.gamma = 0  # Setting gamma to zero
+    decision = [{"is_supported": True} for _ in range(5)]
+    score, init_score = fact_score.calculate_score(decision)
+    assert score == init_score, "No penalty should apply when gamma is zero"
