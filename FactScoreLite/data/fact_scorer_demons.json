@@ -1,0 +1,33 @@
+[
+    {
+      "knowledge_source": "For the optimal operation of your 2022 Honda Accord, the engine oil should be replaced with 0W-20 synthetic oil every 7,500 miles under normal driving conditions.",
+      "fact": "The 2022 Honda Accord requires an oil change every 7,500 miles.",
+      "is_supported": true,
+      "reason": "The fact is directly supported as the manual specifies the oil change interval and the type of oil to use."
+    },
+    {
+      "knowledge_source": "Tire maintenance is crucial for the longevity of your tires and vehicle handling. Rotating your tires at recommended intervals helps distribute wear evenly and extends tire life.",
+      "fact": "Tire rotation for vehicles should be done every 10,000 miles.",
+      "is_supported": false,
+      "reason": "The knowledge source suggests the importance of regular tire rotation but does not specify the 10,000 miles interval."
+    },
+    {
+      "knowledge_source": "Ensure your vehicle's compatibility with connected services. The 2021 Ford Mustang supports Apple CarPlay, enabling a seamless integration with your Apple devices.",
+      "fact": "The 2021 Ford Mustang is compatible with Android Auto.",
+      "is_supported": false,
+      "reason": "The fact is not supported as the manual only mentions compatibility with Apple CarPlay."
+    },
+    {
+      "knowledge_source": "Your vehicle's climate control system is designed to maintain the cabin temperature for comfort.",
+      "fact": "The vehicle includes a heated steering wheel.",
+      "is_supported": false,
+      "reason": "This fact is irrelevant as the manual does not mention steering wheel heating."
+    },
+    {
+      "knowledge_source": "The fuel system should only be filled with unleaded gasoline, as specified in the manual to avoid engine damage.",
+      "fact": "The vehicle can be filled with both gasoline and diesel.",
+      "is_supported": false,
+      "reason": "This fact contradicts the knowledge source which clearly states that only unleaded gasoline should be used."
+    }
+  ]
+  
