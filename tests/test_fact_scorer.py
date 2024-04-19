@@ -1,6 +1,8 @@
 import pytest
-from unittest.mock import patch
+from unittest.mock import mock_open, patch
 from FactScoreLite.fact_scorer import FactScorer
+import json
+from FactScoreLite import configs
 
 
 @pytest.fixture
@@ -82,3 +84,51 @@ def test_complex_knowledge_source_and_atomic_facts(fact_scorer, mock_openai_agen
     assert all(
         isinstance(decision, dict) for decision in result
     ), "Each item in the returned list should be a dictionary."
+
+
+# Sample data to be returned by the mock
+mock_demons_data = [
+    {
+        "knowledge_source": "knw 1",
+        "fact": "fact 1",
+        "is_supported": True,
+    },
+    {
+        "knowledge_source": "knw 2",
+        "fact": "fact 2",
+        "is_supported": False,
+    },
+]
+
+
+# Test for the load_demons method
+def test_load_demons(fact_scorer):
+    # Convert your sample data to a JSON string for mocking
+    mock_json_str = json.dumps(mock_demons_data)
+    # Use patch to mock open function within the context of your test
+    with patch("builtins.open", mock_open(read_data=mock_json_str)):
+        # Also mock configs.demons_path to avoid dependency on external config files
+        with patch.object(
+            configs, "atomic_facts_demons_path", "fake/path/to/fact_scorer_demons.json"
+        ):
+            demons = fact_scorer.load_demons()
+            # Assert that the returned data matches your mock data
+            assert (
+                demons == mock_demons_data
+            ), "The method should load and return the demons correctly."
+
+
+def test_get_instructions_true_false_demons(fact_scorer):
+    # Test case for a single demon in self.demons
+    fact_scorer.demons = mock_demons_data
+    expected_instructions = (
+        "Evaluate the truthfulness of the statement based solely on the provided context and provide the reason for your decision.\n\n"
+        "Instruction:\nOnly consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.\n\n"
+        "Context:\nknw 1\n"
+        "Statement:\nfact 1 True or False?\n"
+        "Output:\nTrue\n\n"
+        "Context:\nknw 2\n"
+        "Statement:\nfact 2 True or False?\n"
+        "Output:\nFalse\n\n"
+    )
+    assert fact_scorer.get_instructions() == expected_instructions
