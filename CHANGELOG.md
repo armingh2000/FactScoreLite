@@ -76,6 +76,10 @@ All notable changes to this project will be documented in this file.
 - Add fact scorer demons json file
 - Add CONTRIBUTING.md guidelines
 
+## v 1.2.0 - 2024-04-19
+
+- Fix knowledge source in fact scorer prompt (used to send all knowledge sources in one prompt)
+
 <!--
 ### Added
 

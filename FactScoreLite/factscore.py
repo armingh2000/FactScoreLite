@@ -98,16 +98,18 @@ class FactScore:
         decisions = self.decisions_handler.load()
         scores = []
         init_scores = []
+        cur_knw_idx = 0
 
-        for enrty in decisions:
-            score, init_score = self.calculate_score(enrty["decision"])
+        for entry in decisions:
+            score, init_score = self.calculate_score(entry["decision"])
             init_scores.append(init_score)
             scores.append(score)
+            cur_knw_idx += 1
 
         for entry in tqdm(generation_facts_pairs[len(decisions) :]):
             generation, facts = entry["generation"], entry["facts"]
 
-            decision = self.fact_scorer.get_score(facts, knowledge_sources)
+            decision = self.fact_scorer.get_score(facts, knowledge_sources[cur_knw_idx])
             score, init_score = self.calculate_score(decision)
 
             init_scores.append(init_score)
