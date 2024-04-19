@@ -67,6 +67,15 @@ All notable changes to this project will be documented in this file.
 - Add tests for the fix.
 - Remove unnecessary code.
 
+## v 1.1.0 - 2024-04-18
+
+- Update fact scorer prompt
+- Add tests for fact scorer demon load
+- Fix demon format in atomic facts tests
+- Rename demon files
+- Add fact scorer demons json file
+- Add CONTRIBUTING.md guidelines
+
 <!--
 ### Added
 
