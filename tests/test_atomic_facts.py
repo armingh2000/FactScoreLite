@@ -24,12 +24,10 @@ def generator(monkeypatch):
 
 
 # Sample data to be returned by the mock
-mock_demons_data = {
-    "demons": [
-        {"Sentence": "Example sentence 1.", "Independent Facts": ["Fact 1", "Fact 2"]},
-        {"Sentence": "Example sentence 2.", "Independent Facts": ["Fact 3", "Fact 4"]},
-    ]
-}
+mock_demons_data = [
+    {"Sentence": "Example sentence 1.", "Independent Facts": ["Fact 1", "Fact 2"]},
+    {"Sentence": "Example sentence 2.", "Independent Facts": ["Fact 3", "Fact 4"]},
+]
 
 
 # Test for the load_demons method
@@ -39,7 +37,9 @@ def test_load_demons(generator):
     # Use patch to mock open function within the context of your test
     with patch("builtins.open", mock_open(read_data=mock_json_str)):
         # Also mock configs.demons_path to avoid dependency on external config files
-        with patch.object(configs, "demons_path", "fake/path/to/demons.json"):
+        with patch.object(
+            configs, "atomic_facts_demons_path", "fake/path/to/atomic_facts_demons.json"
+        ):
             demons = generator.load_demons()
             # Assert that the returned data matches your mock data
             assert (
