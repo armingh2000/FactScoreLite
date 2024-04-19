@@ -1,0 +1,102 @@
+[
+  {
+    "Sentence": "The Turbo V6 engine boasts an impressive horsepower of 450 and a peak torque of 510 lb-ft, achieved between 2,500 and 5,500 rpm, equipped with a 10-speed automatic transmission and a dual-exhaust system, enhancing both performance and sound.",
+    "Independent Facts": [
+      "It has a Turbo V6 engine.",
+      "The horsepower is 450.",
+      "The peak torque is 510 lb-ft.",
+      "Peak torque occurs between 2,500 and 5,500 rpm.",
+      "The vehicle has a 10-speed automatic transmission.",
+      "It features a dual-exhaust system.",
+      "The dual-exhaust system enhances performance.",
+      "The dual-exhaust system enhances sound."
+    ]
+  },
+  {
+    "Sentence": "According to the maintenance schedule in the owner's manual, the coolant fluid should be replaced every 40,000 miles or 4 years, whichever comes first, to ensure optimal engine performance and prevent overheating.",
+    "Independent Facts": [
+      "The coolant fluid replacement is mentioned in the maintenance schedule.",
+      "The owner's manual contains the maintenance schedule.",
+      "Coolant fluid should be replaced every 40,000 miles.",
+      "Alternatively, coolant fluid should be replaced every 4 years.",
+      "Replacement is based on whichever milestone is reached first.",
+      "The purpose is to ensure optimal engine performance.",
+      "Another purpose is to prevent overheating."
+    ]
+  },
+  {
+    "Sentence": "Featuring advanced safety technology, the 2022 Virtue Sedan incorporates an automatic emergency braking system, a lane-keeping assist feature, and adaptive cruise control, all designed to comply with the latest Euro NCAP safety standards.",
+    "Independent Facts": [
+      "The model year is 2022.",
+      "The model is the Virtue Sedan.",
+      "It features advanced safety technology.",
+      "The technology includes an automatic emergency braking system.",
+      "It also includes a lane-keeping assist feature.",
+      "Adaptive cruise control is another included technology.",
+      "All technologies are designed to comply with Euro NCAP safety standards."
+    ]
+  },
+  {
+    "Sentence": "The GT Hawk Coupe's LED headlights are programmable for automatic adjustment based on exterior light conditions, featuring dynamic bending light technology that adjusts the beam direction during turns to enhance visibility.",
+    "Independent Facts": [
+      "The model is the GT Hawk Coupe.",
+      "It has LED headlights.",
+      "The headlights are programmable.",
+      "Automatic adjustment is based on exterior light conditions.",
+      "Features include dynamic bending light technology.",
+      "The technology adjusts beam direction during turns.",
+      "The purpose is to enhance visibility."
+    ]
+  },
+  {
+    "Sentence": "For the EcoSport 2021 model, the manufacturer recommends using synthetic oil with a viscosity of 5W-30, specifically designed to provide maximum engine protection and fuel efficiency under all operating conditions.",
+    "Independent Facts": [
+      "The year of the model is 2021.",
+      "The model is the EcoSport.",
+      "The manufacturer recommends synthetic oil.",
+      "The recommended oil viscosity is 5W-30.",
+      "The oil is designed for maximum engine protection.",
+      "It is also designed for fuel efficiency.",
+      "The oil's benefits apply under all operating conditions."
+    ]
+  },
+  {
+    "Sentence": "With an 8-inch infotainment touchscreen display, the 2024 Mirage G4 integrates Apple CarPlay and Android Auto compatibility, Bluetooth connectivity, and a six-speaker audio system, ensuring a seamless and engaging driving experience.",
+    "Independent Facts": [
+      "The year of the model is 2024.",
+      "The model is the Mirage G4.",
+      "It features an 8-inch infotainment touchscreen display.",
+      "The system integrates Apple CarPlay compatibility.",
+      "It also integrates Android Auto compatibility.",
+      "Bluetooth connectivity is included.",
+      "There is a six-speaker audio system.",
+      "These features ensure a seamless driving experience.",
+      "They also ensure an engaging driving experience."
+    ]
+  },
+  {
+    "Sentence": "Equipped with a multi-link rear suspension system and electronically controlled shock absorbers, the 2022 Excalibur offers enhanced stability and a smoother ride, adapting to various road conditions for optimal comfort and handling.",
+    "Independent Facts": [
+      "The year of the model is 2022.",
+      "The model is the Excalibur.",
+      "It is equipped with a multi-link rear suspension system.",
+      "It has electronically controlled shock absorbers.",
+      "These features enhance stability.",
+      "They also contribute to a smoother ride.",
+      "The system adapts to various road conditions.",
+      "Adaptation aims for optimal comfort.",
+      "It also aims for optimal handling."
+    ]
+  },
+  {
+    "Sentence": "The cabin air filter should be inspected every 15,000 miles and replaced as necessary to maintain air quality inside the vehicle, reducing exposure to dust, pollen, and other airborne particles.",
+    "Independent Facts": [
+      "The cabin air filter should be inspected every 15,000 miles.",
+      "It should be replaced as necessary.",
+      "The purpose is to maintain air quality inside the vehicle.",
+      "Replacement reduces exposure to dust.",
+      "It also reduces exposure to pollen.",
+      "It reduces exposure to other airborne particles."
+    ]
+  }
+]
