@@ -45,7 +45,7 @@ class AtomicFactGenerator:
         Returns:
             list: A list of examples (demonstrations).
         """
-        with open(configs.demons_path, "r") as file:
+        with open(configs.atomic_facts_demons_path, "r") as file:
             demons = json.load(file)
 
         return demons
@@ -53,7 +53,7 @@ class AtomicFactGenerator:
     def get_instructions(self) -> str:
         """
         Prepare instructions for the prompt generation.
-        Instructions include the examples given in the demons.json file.
+        Instructions include the examples given in the atomic_facts_demons.json file.
 
         Returns:
             str: The instructions for the prompt generation.

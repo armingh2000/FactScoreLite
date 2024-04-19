@@ -4,7 +4,8 @@ import importlib.resources
 data_path = importlib.resources.files("FactScoreLite") / "data"
 
 # Path to the data file within the package
-demons_path = data_path / "demons.json"
+atomic_facts_demons_path = data_path / "atomic_facts_demons.json"
+fact_scorer_demons_path = data_path / "fact_scorer_demons.json"
 
 # OpenAI API
 max_tokens = 1024

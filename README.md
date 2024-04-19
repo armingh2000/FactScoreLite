@@ -108,7 +108,7 @@ from FactScoreLite import FactScorer
 scores = FactScorer.get_scores(facts, knowledge_sources)
 ```
 
-## Prompt Engineering
+## Fact Extraction Prompt Engineering
 
 To instruct GPT on how to break each sentence into facts, we have included [examples](FactScoreLite/data/demons.json) (demonstrations, i.e., demons) that is contained in the prompt. These demons are currently for the vehicle domain. However, you might want to create your own domain specific demons. To do this, you can use GPT to create demons based on your requirements. We prompted GPT with [instructions](FactScoreLite/data/demons_generation_prompt.txt) on how to generate the demons required for the vehicle domain. However, you can alter it based on your needs.
 
@@ -117,7 +117,7 @@ Once you have your own demons.json file, you can include it in the program by se
 ```python
 import FactScoreLite
 
-FactScoreLite.configs.demons_path = "/path/to/your/json/file"
+FactScoreLite.configs.atomic_facts_demons_path = "/path/to/your/json/file"
 
 # rest of your code
 ```
@@ -149,21 +149,54 @@ target_sentence
 Independent Facts:
 ```
 
-### Facts Scoring Prompt
+### Facts Scoring Prompt Engineering
 
-The prompt used for scoring facts:
+We also use [example demonstrations](/FactScoreLite/data/fact_scorer_demons.json) for scoring instructions prompt. The file contains one positive and multiple negative examples. In each prompt, the positive example in addition to a randomly selected negative prompt is added so that GPT performs better and more accurately. The file also contains reasons for each assignment; However, they are not used in the prompt generation but is a good way of improving the accuracy of GPT on scoring in the future.
+
+You can also set your own domain-specific examples for the run by running the following:
+
+```python
+import FactScoreLite
+
+FactScoreLite.configs.fact_scorer_demons_path = "/path/to/your/json/file"
+
+# rest of your code
+```
+
+### Fact Scoring Prompt
+
+The following prompt template is used to instruct GPT for scoring facts:
 
 ```
 # fact_scorer.py
 
-Answer the question based on the given context.
+Evaluate the truthfulness of the statement based solely on the provided context and provide the reason for your decision.
+
+
+Instruction:
+Only consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.
+
 
 Context:
-knowledge_source
-
-Input:
-fact True or False?
+knw 1
+Statement:
+fact 1 True or False?
 Output:
+True
+
+Context:
+knw 2
+Statement:
+fact 2 True or False?
+Output:
+False
+
+Context:
+target_knowledge_source
+Statement:
+target_fact True or False?
+Output:
+
 ```
 
 ## Running the Tests
