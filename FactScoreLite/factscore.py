@@ -98,18 +98,27 @@ class FactScore:
         decisions = self.decisions_handler.load()
         scores = []
         init_scores = []
-        cur_knw_idx = 0
 
         for entry in decisions:
             score, init_score = self.calculate_score(entry["decision"])
             init_scores.append(init_score)
             scores.append(score)
-            cur_knw_idx += 1
 
-        for entry in tqdm(generation_facts_pairs[len(decisions) :]):
+        assert len(generation_facts_pairs) == len(
+            knowledge_sources
+        ), "Number of generation-facts pairs and knowledge sources should be the same."
+
+        current_index = len(decisions)
+
+        for entry, knowledge_source in tqdm(
+            zip(
+                generation_facts_pairs[current_index:],
+                knowledge_sources[current_index:],
+            )
+        ):
             generation, facts = entry["generation"], entry["facts"]
 
-            decision = self.fact_scorer.get_score(facts, knowledge_sources[cur_knw_idx])
+            decision = self.fact_scorer.get_score(facts, knowledge_source)
             score, init_score = self.calculate_score(decision)
 
             init_scores.append(init_score)

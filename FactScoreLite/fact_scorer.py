@@ -34,8 +34,8 @@ class FactScorer:
             str: The instructions for the prompt generation.
         """
 
-        instructions = "Evaluate the truthfulness of the statement based solely on the provided context and provide the reason for your decision.\n\n"
-        instructions += "Instruction:\nOnly consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.\n\n"
+        # instructions = "Evaluate the truthfulness of the statement based solely on the provided context.\n\n"
+        instructions = "Instruction:\nOnly consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.\n\n"
         true_example = self.demons[0]
         false_example = random.choice(self.demons[1:])
 
