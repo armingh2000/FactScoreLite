@@ -122,7 +122,6 @@ def test_get_instructions_true_false_demons(fact_scorer):
     # Test case for a single demon in self.demons
     fact_scorer.demons = mock_demons_data
     expected_instructions = (
-        "Evaluate the truthfulness of the statement based solely on the provided context and provide the reason for your decision.\n\n"
         "Instruction:\nOnly consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.\n\n"
         "Context:\nknw 1\n"
         "Statement:\nfact 1 True or False?\n"
