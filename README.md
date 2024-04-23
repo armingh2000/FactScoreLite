@@ -20,7 +20,7 @@ Since the project is using OpenAI APIs, make sure that you have set up the API k
 
 ## Requirements
 
-Make sure you have Python version is >= 3.9.
+Make sure you have Python version is >= 3.10.
 
 ## Installing
 
