@@ -80,6 +80,12 @@ All notable changes to this project will be documented in this file.
 
 - Fix knowledge source in fact scorer prompt (used to send all knowledge sources in one prompt)
 
+## v 1.3.0 - 2024-04-22
+
+- Refactor knowledge source passing in FactScore
+- Update FactScorer prompt (improve performance)
+- Update README.md to contain the new prompt.
+
 <!--
 ### Added
 

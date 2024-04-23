@@ -174,12 +174,8 @@ The following prompt template is used to instruct GPT for scoring facts:
 ```
 # fact_scorer.py
 
-Evaluate the truthfulness of the statement based solely on the provided context and provide the reason for your decision.
-
-
 Instruction:
 Only consider the statement true if it can be directly verified by the information in the context. If the information in the statement cannot be found in the context or differs from it, label it as false.
-
 
 Context:
 knw 1
