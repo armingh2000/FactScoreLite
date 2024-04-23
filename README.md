@@ -18,6 +18,10 @@ Our development aims to address these shortcomings by updating the code and ensu
 
 Since the project is using OpenAI APIs, make sure that you have set up the API key before running any code. For instructions refer to [OpenAI documentation](https://platform.openai.com/docs/quickstart?context=python).
 
+## Requirements
+
+Make sure you have Python version is >= 3.9.
+
 ## Installing
 
 You can install this package using pip:
