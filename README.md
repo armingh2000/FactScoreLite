@@ -114,7 +114,7 @@ scores = FactScorer.get_scores(facts, knowledge_sources)
 
 ## Fact Extraction Prompt Engineering
 
-To instruct GPT on how to break each sentence into facts, we have included [examples](FactScoreLite/data/demons.json) (demonstrations, i.e., demons) that is contained in the prompt. These demons are currently for the vehicle domain. However, you might want to create your own domain specific demons. To do this, you can use GPT to create demons based on your requirements. We prompted GPT with [instructions](FactScoreLite/data/demons_generation_prompt.txt) on how to generate the demons required for the vehicle domain. However, you can alter it based on your needs.
+To instruct GPT on how to break each sentence into facts, we have included [examples](FactScoreLite/data/atomic_facts_demons.json) (demonstrations, i.e., demons) that is contained in the prompt. These demons are currently for the vehicle domain. However, you might want to create your own domain specific demons. To do this, you can use GPT to create demons based on your requirements. We prompted GPT with [instructions](FactScoreLite/data/demons_generation_prompt.txt) on how to generate the demons required for the vehicle domain. However, you can alter it based on your needs.
 
 Once you have your own demons.json file, you can include it in the program by setting the correct config:
 
